@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLAYER 2 DESCONECTADO - Anti-Bullying Folder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            font-family: 'VT323', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        /* Container do folder */
+        .folder {
+            max-width: 1200px;
+            width: 100%;
+            background: #0D0D0D;
+            border: 2px solid #00FF41;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+            position: relative;
+        }
+
+        /* Grid de 3 colunas */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+
+        /* Cada painel */
+        .panel {
+            padding: 25px 20px;
+            border-right: 1px dashed #00FF41;
+            min-height: 550px;
+        }
+
+        .panel:last-child {
+            border-right: none;
+        }
+
+        /* Painel traseiro */
+        .back-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+
+        .back-panel {
+            padding: 25px 20px;
+            border-right: 1px dashed #00FF41;
+            min-height: 550px;
+        }
+
+        .back-panel:last-child {
+            border-right: none;
+        }
+
+        /* Títulos estilo game - AUMENTADOS */
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.8rem;
+            color: #00FF41;
+            text-shadow: 3px 3px 0px #00FFFF;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            line-height: 1.4;
+        }
+
+        h2 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2rem;
+            color: #FFCC00;
+            margin-bottom: 18px;
+            line-height: 1.3;
+        }
+
+        h3 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9rem;
+            color: #FF00FF;
+            margin: 15px 0 10px;
+        }
+
+        /* Textos gerais - AUMENTADOS */
+        p, li, .credits p, .contact-info p, .achievement {
+            font-size: 1.2rem;
+            line-height: 1.4;
+        }
+
+        /* Efeito glitch nos títulos */
+        .glitch {
+            position: relative;
+            animation: glitch 3s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 100% { text-shadow: 2px 0 #FF00FF, -2px 0 #00FFFF; }
+            25% { text-shadow: -2px 0 #FF00FF, 2px 0 #00FFFF; }
+            50% { text-shadow: 2px 2px #FF00FF, -2px -2px #00FFFF; }
+            75% { text-shadow: -2px -2px #FF00FF, 2px 2px #00FFFF; }
+        }
+
+        /* Pixel art character */
+        .pixel-art {
+            background: #1a1a2e;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 1px solid #00FF41;
+            image-rendering: pixelated;
+        }
+
+        .pixel-art pre {
+            color: #00FF41;
+            font-size: 12px;
+            font-family: monospace;
+            line-height: 1.2;
+        }
+
+        /* Balão de diálogo */
+        .dialog-bubble {
+            background: #1a1a1a;
+            border: 2px solid #00FF41;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .dialog-bubble p {
+            font-size: 0.9rem !important;
+        }
+
+        .dialog-bubble::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #00FF41;
+        }
+
+        /* Listas estilo tutorial - AUMENTADA */
+        .tutorial-list {
+            list-style: none;
+        }
+
+        .tutorial-list li {
+            color: #CCCCCC;
+            margin-bottom: 14px;
+            padding-left: 28px;
+            position: relative;
+            font-size: 1.2rem;
+        }
+
+        .tutorial-list li strong {
+            font-size: 1.2rem;
+        }
+
+        .tutorial-list li::before {
+            content: '▶';
+            color: #00FF41;
+            position: absolute;
+            left: 0;
+            font-size: 1rem;
+        }
+
+        /* Mapa de jogo */
+        .game-map {
+            background: #111;
+            border: 2px solid #333;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .obstacle {
+            color: #FF4444;
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .bonus {
+            color: #44FF44;
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+
+        /* Achievements - AUMENTADOS */
+        .achievement {
+            background: #1a1a2e;
+            border-left: 4px solid #FFCC00;
+            padding: 12px 10px;
+            margin: 12px 0;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .achievement:hover {
+            transform: scale(1.02);
+            background: #252550;
+        }
+
+        .achievement.unlocked {
+            border-left-color: #00FF41;
+            background: #009400;
+        }
+
+        /* Botão restart - AUMENTADO */
+        .restart-btn {
+            display: block;
+            background: #00FF41;
+            color: #0D0D0D;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            padding: 14px;
+            text-align: center;
+            text-decoration: none;
+            margin: 20px 0;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .restart-btn:hover {
+            background: #FF00FF;
+            color: #FFF;
+            box-shadow: 0 0 15px #FF00FF;
+        }
+
+        /* Barra de vida */
+        .hp-bar {
+            margin: 15px 0;
+        }
+
+        .hp-label {
+            font-size: 0.9rem;
+            color: #FF4444;
+        }
+
+        .hp-fill {
+            background: #FF4444;
+            height: 14px;
+            width: 30%;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Contato - AUMENTADO */
+        .contact-info {
+            margin-top: 20px;
+            color: #888;
+        }
+
+        .contact-info p {
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .contact-info a {
+            color: #00FF41;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        /* Créditos - AUMENTADO */
+        .credits {
+            margin: 20px 0;
+            color: #FFCC00;
+        }
+
+        .credits p {
+            font-size: 1.2rem;
+            margin: 8px 0;
+        }
+
+        /* Divisor */
+        hr {
+            border-color: #00FF41;
+            margin: 15px 0;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .grid, .back-grid {
+                grid-template-columns: 1fr;
+            }
+            .panel, .back-panel {
+                border-right: none;
+                border-bottom: 1px dashed #00FF41;
+            }
+            
+            h1 {
+                font-size: 1.4rem;
+            }
+            
+            h2 {
+                font-size: 1rem;
+            }
+            
+            p, li, .credits p, .contact-info p, .achievement {
+                font-size: 1.1rem;
+            }
+        }
+
+        .warning {
+            color: #FF00FF;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        /* Texto da dica */
+        .game-map p {
+            font-size: 1rem;
+        }
+        
+        .game-map p[style*="color:#FFCC00"] {
+            font-size: 1rem;
+        }
+        
+        /* Selo de segurança */
+        .security-badge {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .security-badge p {
+            color: #FF00FF;
+            font-size: 0.9rem;
+        }
+        
+        .security-badge div {
+            background: #1a1a1a;
+            padding: 10px;
+        }
+        
+        .security-badge code {
+            color: #00FF41;
+            font-size: 0.9rem;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="folder">
+        <!-- FRENTE DO FOLDER (3 colunas) -->
+        <div class="grid">
+            <!-- CAPA -->
+            <div class="panel">
+                <div class="pixel-art">
+                    <pre>
+  ██████╗ ██╗  ██╗
+  ██╔══██╗╚██╗██╔╝
+  ██████╔╝ ╚███╔╝ 
+  ██╔══██╗ ██╔██╗ 
+  ██████╔╝██╔╝ ██╗
+  ╚═════╝ ╚═╝  ╚═╝
+                    </pre>
+                </div>
+                <div class="dialog-bubble">
+                    <p style="color:#FF00FF; font-family:'Press Start 2P'; font-size:0.85rem;">
+                        [ERROR] CONEXÃO PERDIDA
+                    </p>
+                </div>
+                <h1 class="glitch">PLAYER 2<br>DESCONECTADO</h1>
+                <p style="color:#00FF41; font-size:1rem;">Quando a toxicidade vence, o jogo perde o sentido.</p>
+                <div class="hp-bar">
+                    <div class="hp-label">❤️ HP DO RESPEITO: 30%</div>
+                    <div class="hp-fill"></div>
+                </div>
+                <div class="warning">
+                    ⚠️ BULLYING DETECTADO ⚠️
+                </div>
+            </div>
+
+            <!-- INTERNO ESQUERDO - TUTORIAL -->
+            <div class="panel">
+                <h2>🛡️ TUTORIAL DE COMBATE</h2>
+                <p style="color:#00FF41; margin-bottom:15px; font-size:1.1rem;">Como lidar com trolls e agressores</p>
+                <ul class="tutorial-list">
+                    <li><strong>🧠 Mantenha a calma</strong> - Não alimente o "boss"</li>
+                    <li><strong>🚫 Bloqueie e denuncie</strong> - Report + Block</li>
+                    <li><strong>👥 Forme um clan de apoio</strong> - Não jogue sozinho</li>
+                    <li><strong>📸 Guarde provas</strong> - Prints e logs</li>
+                    <li><strong>🗣️ Chame um moderador</strong> - Sempre há um admin</li>
+                </ul>
+                <div class="game-map">
+                    <p style="color:#FFCC00; font-size:1rem;">💡 DICA DE NÍVEL:</p>
+                    <p style="font-size:1rem;">"Palavras podem causar mais dano que um crítico. Use escudo da empatia."</p>
+                </div>
+            </div>
+
+            <!-- INTERNO CENTRAL - MAPA -->
+            <div class="panel">
+                <h2>🗺️ MAPA DO NÍVEL</h2>
+                <p style="color:#FFCC00; margin-bottom:10px; font-size:1rem;">Escola Sem Bullying</p>
+                <div class="game-map">
+                    <p class="obstacle">❌ INSULTOS REPETIDOS</p>
+                    <p class="obstacle">❌ ISOLAMENTO DE JOGADORES</p>
+                    <p class="obstacle">❌ AMEAÇAS OU HUMILHAÇÃO</p>
+                    <hr>
+                    <p class="bonus">✅ INCLUIR QUEM ESTÁ SOZINHO</p>
+                    <p class="bonus">✅ DEFENDER ALGUÉM INJUSTIÇADO</p>
+                    <p class="bonus">✅ RELATAR COMPORTAMENTOS</p>
+                </div>
+                <p style="text-align:center; margin-top:10px; font-size:1rem;">
+                    🏆 <span style="color:#00FF41">META: 100% RESPEITO</span> 🏆
+                </p>
+            </div>
+        </div>
+
+        <!-- VERSO DO FOLDER (3 colunas) -->
+        <div class="back-grid">
+            <!-- CONTRA-CAPA -->
+            <div class="back-panel">
+                <h2>🎮 CRÉDITOS</h2>
+                <div class="credits">
+                    <p>Equipe Anti-Bullying:</p>
+                    <p>▶ Alexandre</p>
+                    <p>▶ Gustavo</p>
+                    <p>▶ Brenno</p>
+                    <p>▶ Brayan</p>
+                </div>
+                <button class="restart-btn" id="restartBtn">🔄 RESTART</button>
+                <p style="font-size:0.9rem; color:#888;">Reiniciar a convivência — uma nova partida é sempre possível.</p>
+            </div>
+
+            <!-- INTERNO DIREITO - ACHIEVEMENTS -->
+            <div class="back-panel">
+                <h2>🏅 ACHIEVEMENT UNLOCKED</h2>
+                <p style="margin-bottom:10px; font-size:1rem;">Conquistas para uma sala sem bullying:</p>
+                
+                <div class="achievement" id="ach1">
+                    🔒 Paciência Lendária - Ignorou provocações por 1 semana
+                </div>
+                <div class="achievement" id="ach2">
+                    🔒 Defensor da Justiça - Ajudou alguém excluído
+                </div>
+                <div class="achievement" id="ach3">
+                    🔒 Relatório Épico - Denunciou cyberbullying
+                </div>
+                <div class="achievement" id="ach4">
+                    🔒 Comunicação ++ - Resolveu conflito no diálogo
+                </div>
+                <div class="achievement" id="ach5">
+                    🔒 Paz em Rede - Criou ambiente seguro no grupo
+                </div>
+                
+                <p style="font-size:0.8rem; color:#FFCC00; margin-top:10px;">
+                    * Clique nas conquistas para desbloquear!
+                </p>
+            </div>
+
+            <!-- CONTATO (adicionado o painel que faltava) -->
+            <div class="back-panel">
+                <h2>📞 SUPORTE</h2>
+                <div class="contact-info">
+                    <p>📞 +123-456-7890</p>
+                    <p>✉️ <a href="#">hello@reallygreatsite.com</a></p>
+                    <p>🌐 <a href="#">www.reallygreatsite.com</a></p>
+                    <p>📍 123 Anywhere St., Any City</p>
+                </div>
+                <hr>
+                <p style="color:#00FF41; font-size:1rem;">Technology Services Professional IT Services</p>
+                <p style="font-size:0.9rem;">Technology solutions for smarter and more efficient schools!</p>
+                
+                <div class="security-badge">
+                    <p>🔐 REPORTA AQUI 🔐</p>
+                    <div>
+                        <code>/report bullying</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Efeito de glitch nos títulos
+        function randomGlitch() {
+            const glitchElements = document.querySelectorAll('.glitch');
+            glitchElements.forEach(el => {
+                setInterval(() => {
+                    if(Math.random() > 0.95) {
+                        el.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
+                        setTimeout(() => {
+                            el.style.transform = 'translate(0,0)';
+                        }, 100);
+                    }
+                }, 3000);
+            });
+        }
+        
+        // Botão Restart - reinicia conquistas
+        const restartBtn = document.getElementById('restartBtn');
+        const achievements = ['ach1', 'ach2', 'ach3', 'ach4', 'ach5'];
+        
+        function resetAchievements() {
+            achievements.forEach(id => {
+                const el = document.getElementById(id);
+                el.classList.remove('unlocked');
+                let text = el.innerHTML;
+                if (text.includes('🏆')) {
+                    text = text.replace('🏆', '🔒');
+                } else if (!text.includes('🔒')) {
+                    text = '🔒 ' + text;
+                }
+                el.innerHTML = text;
+            });
+            
+            // Reset HP bar
+            const hpFill = document.querySelector('.hp-fill');
+            hpFill.style.width = '30%';
+            hpFill.style.background = '#FF4444';
+            
+            // Reset HP label
+            const hpLabel = document.querySelector('.hp-label');
+            hpLabel.innerHTML = '❤️ HP DO RESPEITO: 30%';
+            
+            // Mensagem de feedback
+            const restartBtnEl = document.getElementById('restartBtn');
+            const originalText = restartBtnEl.innerHTML;
+            restartBtnEl.innerHTML = '✨ CONVIVÊNCIA REINICIADA ✨';
+            setTimeout(() => {
+                restartBtnEl.innerHTML = originalText;
+            }, 2000);
+        }
+        
+        restartBtn.addEventListener('click', resetAchievements);
+        
+        // Clique nas conquistas para desbloquear
+        achievements.forEach(id => {
+            const el = document.getElementById(id);
+            el.addEventListener('click', function() {
+                if(!this.classList.contains('unlocked')) {
+                    this.classList.add('unlocked');
+                    let text = this.innerHTML;
+                    if (text.includes('🔒')) {
+                        text = text.replace('🔒', '🏆');
+                    } else if (!text.includes('🏆')) {
+                        text = '🏆 ' + text;
+                    }
+                    this.innerHTML = text;
+                    
+                    // Aumenta HP bar a cada conquista
+                    const hpFill = document.querySelector('.hp-fill');
+                    const hpLabel = document.querySelector('.hp-label');
+                    let currentWidth = parseFloat(hpFill.style.width);
+                    if (isNaN(currentWidth)) currentWidth = 30;
+                    
+                    if(currentWidth < 100) {
+                        const newWidth = Math.min(currentWidth + 14, 100);
+                        hpFill.style.width = newWidth + '%';
+                        hpLabel.innerHTML = `❤️ HP DO RESPEITO: ${Math.round(newWidth)}%`;
+                        if(newWidth >= 70) {
+                            hpFill.style.background = '#44FF44';
+                        } else if(newWidth >= 40) {
+                            hpFill.style.background = '#FFCC00';
+                        }
+                    }
+                }
+            });
+        });
+        
+        // Inicializar
+        randomGlitch();
+        
+        // Efeito de console.log no F12
+        console.log("%c⚠️ PLAYER 2 DESCONECTADO - Anti-Bullying System ⚠️", "color: #00FF41; font-size: 16px; font-family: monospace;");
+        console.log("%cSe você está sofrendo bullying, peça ajuda. Você não está sozinho(a).", "color: #FFCC00; font-size: 14px;");
+    </script>
+</body>
+</html>
